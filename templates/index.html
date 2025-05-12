@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Smart Infrastructure Tracking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            background-image: url('https://via.placeholder.com/1500x1000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            animation: backgroundAnimation 10s infinite alternate;
+            color: #fff;
+            text-align: center;
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                background-color: #a2c2e3;
+            }
+            100% {
+                background-color: #7aa7c3;
+            }
+        }
+
+        .floating-icons {
+            position: absolute;
+            top: 200px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .floating-icons i {
+            font-size: 2em;
+            color: rgba(255, 255, 255, 0.8);
+            animation: float 3s infinite ease-in-out alternate;
+        }
+
+        .floating-icons i:nth-child(odd) {
+            animation-duration: 4s;
+        }
+
+        .floating-icons i:nth-child(even) {
+            animation-duration: 3s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            100% {
+                transform: translateY(15px);
+            }
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: 100px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button {
+            margin: 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s, transform 0.3s;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        .button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        .icon {
+            margin-right: 8px;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-icons">
+        <i class="fas fa-map-marker-alt"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-city"></i>
+        <i class="fas fa-satellite-dish"></i>
+        <i class="fas fa-server"></i>
+    </div><br><br><br><br><br><br><br><br><br>
+    <div class="container">
+        <h1>Welcome to Smart Infrastructure Tracking</h1>
+        <div class="buttons">
+            <a href="{{ url_for('login') }}" class="button">
+                <i class="fas fa-sign-in-alt icon"></i> Login
+            </a>
+            <a href="{{ url_for('signup') }}" class="button">
+                <i class="fas fa-user-plus icon"></i> Signup
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Smart Infrastructure Tracking. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

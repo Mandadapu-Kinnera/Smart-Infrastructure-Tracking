@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Reports</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .chart-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .chart-box {
+            width: 400px;
+            height: 300px;
+            margin: 0 auto;
+        }
+        .icon {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-chart-pie icon"></i>Project Reports</h1>
+
+        <!-- Project Information -->
+        <div>
+            <h2><i class="fas fa-project-diagram icon"></i>Project: {{ project.title }}</h2>
+            <p><strong>Status:</strong> {{ project.status }}</p>
+            <p><strong>Due Date:</strong> {{ project.due_date }}</p>
+        </div>
+
+        <!-- Pie Chart for Progress Distribution -->
+        <div class="chart-container">
+            <h2><i class="fas fa-chart-pie icon"></i>Progress Distribution</h2>
+            <div class="chart-box">
+                <canvas id="progressPieChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Bar Graph for Daily Progress -->
+        <div class="chart-container">
+            <h2><i class="fas fa-chart-bar icon"></i>Daily Progress</h2>
+            <div class="chart-box">
+                <canvas id="dailyProgressBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const progressData = {
+            labels: ['Completed', 'Remaining'],
+            datasets: [{
+                data: [
+                    {{ progress_data[-1].progress if progress_data else 0 }},
+                    {{ 100 - (progress_data[-1].progress if progress_data else 0) }}
+                ],
+                backgroundColor: ['#36a2eb', '#ff6384'],
+                hoverBackgroundColor: ['#36a2eb', '#ff6384']
+            }]
+        };
+
+        const dailyProgressData = {
+            labels: {{ progress_data | map(attribute='day') | list | tojson }},
+            datasets: [{
+                label: 'Progress (%)',
+                data: {{ progress_data | map(attribute='progress') | list | tojson }},
+                backgroundColor: '#4bc0c0',
+                borderColor: '#4bc0c0',
+                borderWidth: 1
+            }]
+        };
+
+        const pieCtx = document.getElementById('progressPieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'pie',
+            data: progressData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const barCtx = document.getElementById('dailyProgressBarChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: dailyProgressData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Progress (%)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Day'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Day ${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

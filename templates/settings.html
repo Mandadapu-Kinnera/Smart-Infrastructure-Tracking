@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .profile-section, .project-section, .progress-section {
+            margin-bottom: 20px;
+        }
+        .profile-section h2, .project-section h2, .progress-section h2 {
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .profile-info, .project-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .profile-info div, .project-info div {
+            flex: 1;
+            padding: 10px;
+        }
+        .progress-section input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .progress-section button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .progress-section button:hover {
+            background-color: #218838;
+        }
+        .icon {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-cogs icon"></i>Project Settings</h1>
+
+        <div class="profile-section">
+            <h2><i class="fas fa-user icon"></i>Contractor Profile</h2>
+            <div class="profile-info">
+                <div>
+                    <p><strong>Name:</strong> {{ contractor.username }}</p>
+                    <p><strong>Email:</strong> {{ contractor.email }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-section">
+            <h2><i class="fas fa-user-shield icon"></i>Admin Profile</h2>
+            <div class="profile-info">
+                <div>
+                    <p><strong>Name:</strong> {{ admin.username }}</p>
+                    <p><strong>Email:</strong> {{ admin.email }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-section">
+            <h2><i class="fas fa-project-diagram icon"></i>Project Information</h2>
+            <div class="project-info">
+                <div>
+                    <p><strong>Title:</strong> {{ project.title }}</p>
+                    <p><strong>Status:</strong> {{ project.status }}</p>
+                </div>
+                <div>
+                    <p><strong>Details:</strong> {{ project.details }}</p>
+                    <p><strong>Due Date:</strong> {{ project.due_date }}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

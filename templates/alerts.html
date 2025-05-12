@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadline Alert</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .alert-container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .alert-icon {
+            font-size: 3rem;
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+
+        .alert-message {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-timer {
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .alert-button {
+            background-color: #ff6b6b;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .alert-button:hover {
+            background-color: #ff5252;
+        }
+    </style>
+</head>
+<body>
+    <div class="alert-container">
+        <div class="alert-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="alert-message" id="alertMessage">
+        </div>
+        <div class="alert-timer" id="alertTimer">
+         
+        <!-- </div>
+        <button class="alert-button" onclick="window.location.href='/taskboard'">Back to Taskboard</button>
+    </div> -->
+<script>async function fetchDeadline() {
+    const url = new URL('/api/deadline', window.location.origin);
+    const contractorId = "{{ contractor_id }}"; 
+    if (contractorId) {
+        url.searchParams.set('contractor_id', contractorId);
+    }
+
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+}
+
+function calculateTimeLeft(deadline) {
+    const now = new Date();
+    const deadlineDate = new Date(deadline);
+    const timeLeft = deadlineDate - now;
+
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    return { days, hours, minutes, seconds };
+}
+
+async function updateAlert() {
+    const deadlineData = await fetchDeadline();
+
+    if (deadlineData.message) {
+        document.getElementById('alertMessage').innerText = deadlineData.message;
+        document.getElementById('alertTimer').innerText = '';
+    } else {
+        const timeLeft = calculateTimeLeft(deadlineData.deadline);
+        document.getElementById('alertMessage').innerText = `Your deadline is approaching! You have to complete your project by ${deadlineData.deadline}.`;
+        document.getElementById('alertTimer').innerText = `Time left: ${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`;
+    }
+}
+
+setInterval(updateAlert, 1000);
+
+updateAlert();</script>
+</body>
+</html>
