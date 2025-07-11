@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Progress</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 50px;
+            max-width: 1200px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2, h3 {
+            color: #f8f9fa;
+        }
+
+        .list-group-item {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .table {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table th, .table td {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .badge {
+            font-size: 14px;
+            padding: 8px 12px;
+        }
+
+        .btn-danger {
+            background: #c0392b;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        .btn-danger:hover {
+            background: #e74c3c;
+        }
+
+        .fa-solid {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2><i class="fa-solid fa-chart-line"></i>Project Progress</h2>
+
+        <h3><i class="fa-solid fa-bell"></i>Notifications</h3>
+        {% if notifications %}
+            <ul class="list-group">
+                {% for notification in notifications %}
+                    <li class="list-group-item"><i class="fa-solid fa-envelope"></i>{{ notification.contractor_name }}: {{ notification.message }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Here are Your Project Notifications.</p>
+        {% endif %}
+
+        <h3 class="mt-4"><i class="fa-solid fa-list-check"></i>Project Status</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Contractor</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td>{{ project.title }}</td>
+                    <td>{{ project.contractor_name }}</td>
+                    <td>{{ project.contractor_email }}</td>
+                    <td>
+                        {% if project.status == 'Accepted' %}
+                            <span class="badge bg-success"><i class="fa-solid fa-check"></i>Accepted</span>
+                        {% elif project.status == 'Rejected' %}
+                            <span class="badge bg-danger"><i class="fa-solid fa-times"></i>Rejected</span>
+                        {% else %}
+                            <span class="badge bg-warning"><i class="fa-solid fa-spinner"></i>Pending</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form action="{{ url_for('delete_project', project_id=project.id) }}" method="POST">
+                            <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i>Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

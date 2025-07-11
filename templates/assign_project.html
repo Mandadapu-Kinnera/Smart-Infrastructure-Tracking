@@ -1,0 +1,154 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Assign Project</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+      <style>
+          body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100vh;
+              background-color: #f4f4f4;
+          }
+          .container {
+              width: 100%;
+              max-width: 500px;
+              background: white;
+              padding: 20px;
+              border-radius: 10px;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+          .input-container {
+              display: flex;
+              align-items: center;
+              margin-bottom: 15px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              padding: 8px;
+              background: #fff;
+          }
+          .input-container i {
+              margin-right: 10px;
+              color: #555;
+          }
+          input, textarea, select {
+              width: 100%;
+              border: none;
+              outline: none;
+              padding: 8px;
+              font-size: 16px;
+              background: transparent;
+          }
+          button {
+              width: 100%;
+              background-color: #28a745;
+              color: white;
+              padding: 10px;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 16px;
+          }
+          button:hover {
+              background-color: #218838;
+          }
+          a {
+              display: flex;
+              align-items: center;
+              margin-top: 10px;
+              text-decoration: none;
+              color: #007bff;
+          }
+          a i {
+              margin-right: 5px;
+          }
+          a:hover {
+              text-decoration: underline;
+          }
+          .confirmation-popup {
+              display: none;
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background-color: rgba(0, 0, 0, 0.7);
+              color: white;
+              padding: 30px;
+              border-radius: 10px;
+              text-align: center;
+          }
+          .confirmation-popup button {
+              background-color: #28a745;
+              border-radius: 5px;
+              padding: 10px 20px;
+              cursor: pointer;
+              font-size: 16px;
+          }
+          .confirmation-popup button.cancel {
+              background-color: #dc3545;
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container">
+          <h1><i class="fas fa-tasks"></i> Assign Project</h1>
+          <form method="POST" id="assignForm">
+              <div class="input-container">
+                  <i class="fas fa-file-alt"></i>
+                  <input type="text" name="title" placeholder="Project Title" required>
+              </div>
+              <div class="input-container">
+                  <i class="fas fa-sticky-note"></i>
+                  <textarea name="notes" placeholder="Notes" required></textarea>
+              </div>
+              <div class="input-container">
+                  <i class="fas fa-info-circle"></i>
+                  <textarea name="details" placeholder="Details" required></textarea>
+              </div>
+              <div class="input-container">
+                  <i class="fas fa-user"></i>
+                  <select name="contractor_id" required>
+                      <option value="">Select Contractor</option>
+                      {% for contractor in contractors %}
+                          <option value="{{ contractor.id }}">{{ contractor.username }}</option>
+                      {% endfor %}
+                  </select>
+              </div>
+              <button type="submit"><i class="fas fa-paper-plane"></i> Assign Project</button>
+          </form>
+          <a href="/admin_dashboard"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+      </div>
+  
+      <!-- Confirmation Popup -->
+      <div id="confirmationPopup" class="confirmation-popup">
+          <p>Are you sure you want to assign this project to the selected contractor?</p>
+          <button id="confirmAssign">Yes, Assign Project</button>
+          <button class="cancel" id="cancelAssign">Cancel</button>
+      </div>
+  
+      <script>
+          // Display the confirmation popup when form is submitted
+          document.getElementById('assignForm').addEventListener('submit', function(event) {
+              event.preventDefault(); // Prevent the form from submitting immediately
+              document.getElementById('confirmationPopup').style.display = 'block';
+          });
+  
+          // If confirmed, submit the form
+          document.getElementById('confirmAssign').addEventListener('click', function() {
+              document.getElementById('assignForm').submit();
+          });
+  
+          // If cancelled, close the popup
+          document.getElementById('cancelAssign').addEventListener('click', function() {
+              document.getElementById('confirmationPopup').style.display = 'none';
+          });
+      </script>
+  </body>
+  </html>
+  

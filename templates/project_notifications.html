@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Notifications</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 50px;
+            max-width: 1200px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #f8f9fa;
+        }
+
+        .table {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table th, .table td {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .table th {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transition: background 0.3s;
+        }
+
+        .fa-solid {
+            margin-right: 8px;
+        }
+
+        .badge {
+            font-size: 14px;
+            padding: 8px 12px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-taskboard {
+            background: #2ecc71;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        .btn-taskboard:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fa-solid fa-bell"></i> Project Notifications</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><i class="fa-solid fa-file"></i> Project Title</th>
+                    <th><i class="fa-solid fa-user-tie"></i> Contractor Name</th>
+                    <th><i class="fa-solid fa-calendar-days"></i> Scheduled Date</th>
+                    <th><i class="fa-solid fa-tasks"></i> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for notification in notifications %}
+                <tr>
+                    <td>{{ notification.title }}</td>
+                    <td>{{ notification.contractor_name }}</td>
+                    <td>{{ notification.scheduled_date }}</td>
+                    <td>
+                        <a href="{{ url_for('taskboard_for_contractor', contractor_id=notification.contractor_id) }}" class="btn btn-taskboard">
+                            <i class="fa-solid fa-chart-line"></i> Taskboard
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">No New Notifications.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
